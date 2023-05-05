@@ -1,0 +1,153 @@
+class BankAccount:
+    
+    def __init__ (self, balance = 0):
+        self._balance = balance
+
+    def get_balance(self):
+        return self._balance
+
+    def deposit(self, amt):
+        assert amt > 0
+        assert isinstance(amt,int) or isinstance(amt,float)
+        '''assert not isinstance(amt,str)'''
+        self._balance = self._balance + amt
+
+    def withdraw(self, amt):
+        assert amt >= 0
+        assert isinstance(amt,int)
+        if amt <= self._balance:
+            self._balance = self._balance - amt
+            fif = 0                                         # variables represent the number of dollar bills printed in each respective value e.x. twe = twenty, fif = fifty 
+            twe = 0
+            ten = 0
+            fiv = 0
+            one = 0
+                                                            # each while loop will subtract the respective bill value until it can no longer be subtracted form amount
+            while amt > 49:                                 # loop will then go to next lowest bill and run same loop until value reaches zero
+                if (amt - 50) > -1:
+                    fif = fif + 1
+                    amt = amt - 50
+
+            while amt > 19:    
+                if (amt - 20) > -1:
+                    twe = twe + 1
+                    amt = amt - 20
+                
+            while amt > 9:
+                if (amt - 10) > -1:
+                    ten = ten + 1
+                    amt = amt - 10
+                
+            while amt > 4:
+                if (amt - 5) > -1:
+                    fiv = fiv + 1
+                    amt = amt - 5
+                    
+            while amt > 0:
+                if (amt - 1) > -1:
+                    one = one + 1
+                    amt = amt - 1
+                
+            self._balance = self._balance - amt
+            print('_' * 20)
+            print('')
+            print("You will receive:",fif,"$50 bills,",twe,"$20 bills,",ten,"$10 bills,",fiv,'$5 bills, and',one,'$1 bills.')
+            print('_' * 20)
+            print('')
+            return self._balance
+        
+        if amt > self._balance:
+            print('_' * 20)
+            print('')
+            print('Insufficent funds for withdrawal')
+            print('_' * 20)
+            print('')
+        
+def main():
+    '''
+   Lets user input the initial amount of money for the ATM.
+   Lets user choose what functions (Deposit, Withdraw, Check balance) to run.
+   Ends function when user is done.
+
+'''
+    atm = BankAccount()
+    ex = 0
+    while ex < 1:
+        func_num = input('Would you like to deposit (0), withdraw (1), checkbalance (2) or log out (9) of your account? ')
+        if func_num == ('0'):
+            good0 = False
+            while good0 == False:
+                try:
+                    amt = float(input('How much would you like to deposit? '))
+                    atm.deposit(amt)
+                except AssertionError:
+                    print('_' * 20)
+                    print('')
+                    print('Input must be of type int or float > 0')
+                    print('_' * 20)
+                    print('')
+                    
+                except ValueError:
+                    print('_' * 20)
+                    print('')
+                    print('Input must be of type int or float > 0')
+                    print('_' * 20)
+                    print('')
+                    
+                except TypeError:
+                    print('_' * 20)
+                    print('')
+                    print('Input must be of type int or float > 0')
+                    print('_' * 20)
+                    print('')
+                    
+                else:
+                    good0 = True
+
+
+        elif func_num == ('1'):
+            good1 = False
+            while good1 == False:                                       # I made the assertion condition >= 0 because if you are at balance = 0 and call withdraw function, you can input 0 to get out of the function, it will lopp infinitely if balance is 0 and you cant withdraw 0
+                try:
+                    amt = float(input('How much would you like to withdraw? '))
+                    atm.withdraw(amt)
+                    
+                except AssertionError:
+                    print('_' * 20)
+                    print('')
+                    print('Input must be of type int >= 0')
+                    print('_' * 20)
+                    print('')
+                    
+                except ValueError:
+                    print('_' * 20)
+                    print('')
+                    print('Input must be of type int >= 0')
+                    print('_' * 20)
+                    print('')
+                    
+                except TypeError:
+                    print('_' * 20)
+                    print('')
+                    print('Input must be of type int >= 0')
+                    print('_' * 20)
+                    print('')
+                    
+                else:
+                    good1 = True
+            
+
+        elif func_num == ('2'):
+            print('_' * 20)
+            print('')
+            print('Your Balance is : $', atm.get_balance())
+            print('_' * 20)
+            print('')
+
+        elif func_num == ('9'):
+            ex = 2
+            print('Thank you for using our ATM. :)')
+
+        else:
+             print('Input invalid, Possible actions are: deposit (0), withdraw (1), checkbalance (2) or log out (9) of your account')
+main()
